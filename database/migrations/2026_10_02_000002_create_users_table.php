@@ -14,9 +14,16 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('nickname')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->enum('role', ['admin', 'supervisor', 'student'])->default('student');
+            $table->string('major')->nullable();
+            $table->string('avatar')->nullable();
+            $table->text('bio')->nullable();
+            $table->foreignId('supervisor_id')->nullable()->constrained('users')->nullOnDelete();
+            $table->foreignId('internship_place_id')->nullable()->constrained('internship_places')->nullOnDelete();
             $table->rememberToken();
             $table->timestamps();
         });
